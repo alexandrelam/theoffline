@@ -9,7 +9,7 @@ export default function Home() {
       <Dropdown />
       <div className="flex gap-14">
         <Card className="self-start" />
-        <IArrow />
+        <IArrow className="-mt-36" />
         <Card title="Selected">
           <CardFooter />
         </Card>

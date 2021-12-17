@@ -1,13 +1,13 @@
 import React from "react";
 
-export default function IArrow() {
+export default function IArrow({ className }) {
   return (
     <svg
       aria-hidden="true"
       focusable="false"
       data-prefix="fas"
       data-icon="arrow-right"
-      className="svg-inline--fa fa-arrow-right w-6"
+      className={`svg-inline--fa fa-arrow-right w-6 ${className}`}
       role="img"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 448 512"
