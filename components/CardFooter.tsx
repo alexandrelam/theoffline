@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function CardFooter() {
+const CardFooter: React.FC = (): React.ReactElement => {
   return (
     <>
       <div className="flex justify-between border-y px-3 py-4">
@@ -14,4 +14,6 @@ export default function CardFooter() {
       </div>
     </>
   );
-}
+};
+
+export default CardFooter;
