@@ -28,13 +28,19 @@ const Home: React.FC = (): React.ReactElement => {
   }, []);
 
   const addSelected = (label: string) => {
-    const movedItem: Item | undefined = items.find(
-      (item) => item.label === label
-    );
+    const movedItem: Item = items.find((item) => item.label === label);
     let itemsTmp = items;
     itemsTmp.splice(items.indexOf(movedItem), 1);
     setitems(itemsTmp);
     setselected([...selected, movedItem]);
+  };
+
+  const removeSelected = (label: string) => {
+    const removeSelected: Item = selected.find((item) => item.label === label);
+    let selectedTmp = selected;
+    selectedTmp.splice(selected.indexOf(removeSelected), 1);
+    setselected(selectedTmp);
+    setitems([...items, removeSelected]);
   };
 
   return (
@@ -50,9 +56,15 @@ const Home: React.FC = (): React.ReactElement => {
             items={items}
             isLoading={isLoading}
             addSelected={addSelected}
+            removeSelected={removeSelected}
           />
           <IArrow className="-mt-36" />
-          <Card title="Selected" items={selected} addSelected={addSelected}>
+          <Card
+            title="Selected"
+            items={selected}
+            addSelected={addSelected}
+            removeSelected={removeSelected}
+          >
             <CardFooter />
           </Card>
         </div>
