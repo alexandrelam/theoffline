@@ -1,6 +1,7 @@
 import Dropdown from "../components/Dropdown";
 import Card from "../components/Card";
-import CardFooter from "../components/CardFooter";
+import CardFooterTotal from "../components/CardFooterTotal";
+import CardFooterSubmit from "../components/CardFooterSubmit";
 import IArrow from "../components/icons/IArrow";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
@@ -8,11 +9,13 @@ import Item from "../types/Item";
 import { ToastContainer } from "react-toastify";
 import notify from "../utils/notify";
 import "react-toastify/dist/ReactToastify.css";
+import getTotalWeight from "../utils/weight";
 
 const Home: React.FC = (): React.ReactElement => {
   const [items, setitems] = useState<Array<Item>>([]);
   const [selected, setselected] = useState<Array<Item>>([]);
   const [isLoading, setisLoading] = useState(true);
+  const [totalWeight, settotalWeight] = useState(0);
 
   useEffect(() => {
     axios
@@ -26,6 +29,12 @@ const Home: React.FC = (): React.ReactElement => {
         setisLoading(false);
       });
   }, []);
+
+  useEffect(() => {
+    let sum = 0;
+    selected.forEach((item) => (sum += item.weight));
+    settotalWeight(sum);
+  }, [selected]);
 
   const addSelected = (label: string) => {
     const movedItem: Item = items.find((item) => item.label === label);
@@ -65,7 +74,8 @@ const Home: React.FC = (): React.ReactElement => {
             addSelected={addSelected}
             removeSelected={removeSelected}
           >
-            <CardFooter />
+            <CardFooterTotal totalWeight={totalWeight} />
+            <CardFooterSubmit />
           </Card>
         </div>
       </div>
