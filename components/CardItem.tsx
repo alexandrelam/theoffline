@@ -19,34 +19,32 @@ const CardItem: React.FC<Props> = ({
   removeSelected,
 }): React.ReactElement => {
   const [onHover, setonHover] = useState(false);
+
+  const handleClick = (): void => {
+    if (isInventory) addSelected(item.label);
+    else removeSelected(item.label);
+  };
+
   return (
-    <div className="flex justify-between">
+    <button
+      className="flex justify-between"
+      onMouseEnter={() => setonHover(true)}
+      onMouseLeave={() => setonHover(false)}
+      onClick={handleClick}
+    >
       <span className="font-bold">{capitalize(item.label)}</span>
-      <div
-        onMouseEnter={() => setonHover(true)}
-        onMouseLeave={() => setonHover(false)}
-      >
+      <div>
         {onHover ? (
           isInventory ? (
-            <button
-              onClick={() => addSelected(item.label)}
-              className="text-green-500 text-sm"
-            >
-              add
-            </button>
+            <span className="text-green-500 text-sm">add</span>
           ) : (
-            <button
-              onClick={() => removeSelected(item.label)}
-              className="text-red-500 text-sm"
-            >
-              remove
-            </button>
+            <span className="text-red-500 text-sm">remove</span>
           )
         ) : (
           <span className="text-zinc-500 text-sm">{item.weight}g</span>
         )}
       </div>
-    </div>
+    </button>
   );
 };
 
