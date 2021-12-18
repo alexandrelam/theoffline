@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import capitalize from "../utils/capitalize";
+import Item from "../types/Item";
 
-export default function CardItem({ item }) {
+type Props = {
+  /**item luggage from an airline */
+  item: Item;
+};
+
+const CardItem: React.FC<Props> = ({ item }): React.ReactElement => {
   const [onHover, setonHover] = useState(false);
   return (
     <div className="flex justify-between">
@@ -18,4 +24,6 @@ export default function CardItem({ item }) {
       </div>
     </div>
   );
-}
+};
+
+export default CardItem;

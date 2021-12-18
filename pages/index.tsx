@@ -3,10 +3,11 @@ import Card from "../components/Card";
 import CardFooter from "../components/CardFooter";
 import IArrow from "../components/icons/IArrow";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import Item from "../types/Item";
 
-export default function Home() {
-  const [items, setitems] = useState([]);
+const Home: React.FC = (): React.ReactElement => {
+  const [items, setitems] = useState<Array<Item>>([]);
   const [isLoading, setisLoading] = useState(true);
 
   useEffect(() => {
@@ -33,10 +34,12 @@ export default function Home() {
           isLoading={isLoading}
         />
         <IArrow className="-mt-36" />
-        <Card title="Selected">
+        <Card title="Selected" items={[]}>
           <CardFooter />
         </Card>
       </div>
     </div>
   );
-}
+};
+
+export default Home;
