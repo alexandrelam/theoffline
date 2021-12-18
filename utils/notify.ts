@@ -1,6 +1,7 @@
+import React from "react";
 import { toast } from "react-toastify";
 
-export const notify = () =>
+export const notify = (): React.ReactText =>
   toast.error("🚨 Failed to fetch!", {
     position: "top-right",
     autoClose: 5000,
