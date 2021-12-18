@@ -9,7 +9,6 @@ import Item from "../types/Item";
 import { ToastContainer } from "react-toastify";
 import notify from "../utils/notify";
 import "react-toastify/dist/ReactToastify.css";
-import getTotalWeight from "../utils/weight";
 
 const Home: React.FC = (): React.ReactElement => {
   const [items, setitems] = useState<Array<Item>>([]);
@@ -34,7 +33,7 @@ const Home: React.FC = (): React.ReactElement => {
     let sum = 0;
     selected.forEach((item) => (sum += item.weight));
     settotalWeight(sum);
-  }, [selected]);
+  }, [items, selected]);
 
   const addSelected = (label: string) => {
     const movedItem: Item = items.find((item) => item.label === label);

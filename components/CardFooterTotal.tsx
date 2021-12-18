@@ -1,7 +1,8 @@
 import React from "react";
-import Item from "../types/Item";
+import gram2kilo from "../utils/unitConverter";
 
 type Props = {
+  /**weight displayed in the component */
   totalWeight: number;
 };
 
@@ -10,7 +11,7 @@ const CardFooterTotal: React.FC<Props> = ({
 }): React.ReactElement => (
   <div className="flex justify-between border-y px-3 py-4">
     <span>Total</span>
-    <span>{totalWeight}g</span>
+    <span>{gram2kilo(totalWeight)}kg</span>
   </div>
 );
 
