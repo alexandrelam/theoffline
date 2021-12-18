@@ -5,9 +5,13 @@ import Item from "../types/Item";
 type Props = {
   /**item luggage from an airline */
   item: Item;
+  addSelected: (label: string) => void;
 };
 
-const CardItem: React.FC<Props> = ({ item }): React.ReactElement => {
+const CardItem: React.FC<Props> = ({
+  item,
+  addSelected,
+}): React.ReactElement => {
   const [onHover, setonHover] = useState(false);
   return (
     <div className="flex justify-between">
@@ -17,7 +21,12 @@ const CardItem: React.FC<Props> = ({ item }): React.ReactElement => {
         onMouseLeave={() => setonHover(false)}
       >
         {onHover ? (
-          <button className="text-green-400 text-sm">add</button>
+          <button
+            onClick={() => addSelected(item.label)}
+            className="text-green-400 text-sm"
+          >
+            add
+          </button>
         ) : (
           <span className="text-zinc-500 text-sm">{item.weight}g</span>
         )}
