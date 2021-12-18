@@ -47,7 +47,9 @@ const Card: React.FC<Props> = ({
             />
           ))
         ) : (
-          <span className="text-zinc-500 text-sm">No items available...</span>
+          <span className="text-zinc-500 text-sm">
+            {`no items ${isInventory ? "available" : "selected"}...`}
+          </span>
         )}
       </div>
       {children}
