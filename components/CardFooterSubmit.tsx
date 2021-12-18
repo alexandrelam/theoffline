@@ -10,7 +10,11 @@ const CardFooterSubmit: React.FC<Props> = ({
   <div className="px-4 py-5">
     <button
       disabled={isWeightExceeded}
-      className="bg-zinc-400 rounded w-full h-10 text-white hover:bg-zinc-500 hover:shadow-lg"
+      className={`rounded w-full h-10 text-white hover:shadow-lg ${
+        isWeightExceeded
+          ? "bg-zinc-400 hover:bg-zinc-500 cursor-not-allowed	"
+          : "bg-zinc-900 hover:bg-zinc-800"
+      }`}
     >
       See resume
     </button>
