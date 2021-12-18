@@ -11,12 +11,15 @@ export default function Home() {
 
   useEffect(() => {
     axios
-      .get("https://weekndr.herokuapp.com/api/v2/cabin-luggage-inventory")
+      .get("https://weekndr.herokuapp.com/api/v2/cabin-luggage-inventoryf")
       .then((res) => {
         setitems(res.data.items);
         setisLoading(false);
       })
-      .catch(() => console.log("fail to fetch"));
+      .catch(() => {
+        console.log("fail to fetch");
+        setisLoading(false);
+      });
   }, []);
 
   return (
