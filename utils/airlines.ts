@@ -1,4 +1,4 @@
-type Airline = {
+export type Airline = {
   label: string;
   limit: number;
 };

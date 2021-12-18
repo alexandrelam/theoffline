@@ -45,6 +45,9 @@ const Home: React.FC = (): React.ReactElement => {
     setitems([...items, removeSelected]);
   };
 
+  /**handle airline */
+  const [airlineLabel, setairlineLabel] = useState(airlines[0].label || "");
+
   /**handle weight */
   const [airlineLimit, setairlineLimit] = useState(airlines[0].limit || 0);
   const [totalWeight, settotalWeight] = useState(0);
@@ -65,7 +68,10 @@ const Home: React.FC = (): React.ReactElement => {
       <ToastContainer />
 
       <div className="flex flex-col items-center gap-20 bg-zinc-100 h-screen p-10">
-        <Dropdown setairlineLimit={setairlineLimit} />
+        <Dropdown
+          setairlineLabel={setairlineLabel}
+          setairlineLimit={setairlineLimit}
+        />
         <div className="flex gap-14">
           <Card
             className="self-start"
@@ -86,7 +92,11 @@ const Home: React.FC = (): React.ReactElement => {
               totalWeight={totalWeight}
               isWeightExceeded={isWeightExceeded}
             />
-            <CardFooterSubmit isWeightExceeded={isWeightExceeded} />
+            <CardFooterSubmit
+              selectedItems={selected}
+              airlineLabel={airlineLabel}
+              isWeightExceeded={isWeightExceeded}
+            />
           </Card>
         </div>
       </div>

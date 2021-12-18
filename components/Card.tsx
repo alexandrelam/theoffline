@@ -11,9 +11,9 @@ type Props = {
   className?: string;
   children?: React.ReactNode;
   /**select an item */
-  addSelected: (label: string) => void;
+  addSelected?: (label: string) => void;
   /**deselect an item */
-  removeSelected: (label: string) => void;
+  removeSelected?: (label: string) => void;
 };
 
 const Card: React.FC<Props> = ({
@@ -23,8 +23,8 @@ const Card: React.FC<Props> = ({
   isInventory = false,
   className = "",
   children,
-  addSelected,
-  removeSelected,
+  addSelected = () => {},
+  removeSelected = () => {},
 }): React.ReactElement => {
   return (
     <div className={`w-80 bg-white rounded-lg border shadow-lg ${className}`}>
