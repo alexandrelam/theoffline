@@ -8,14 +8,14 @@ import React, { useState, useEffect } from "react";
 import Item from "../types/Item";
 import { ToastContainer } from "react-toastify";
 import notify from "../utils/notify";
+import { airlines } from "../utils/airlines";
 import "react-toastify/dist/ReactToastify.css";
 
 const Home: React.FC = (): React.ReactElement => {
+  /**handle luggage items*/
+  const [isLoading, setisLoading] = useState(true);
   const [items, setitems] = useState<Array<Item>>([]);
   const [selected, setselected] = useState<Array<Item>>([]);
-  const [isLoading, setisLoading] = useState(true);
-  const [totalWeight, settotalWeight] = useState(0);
-
   useEffect(() => {
     axios
       .get("https://weekndr.herokuapp.com/api/v2/cabin-luggage-inventory")
@@ -28,12 +28,6 @@ const Home: React.FC = (): React.ReactElement => {
         setisLoading(false);
       });
   }, []);
-
-  useEffect(() => {
-    let sum = 0;
-    selected.forEach((item) => (sum += item.weight));
-    settotalWeight(sum);
-  }, [items, selected]);
 
   const addSelected = (label: string) => {
     const movedItem: Item = items.find((item) => item.label === label);
@@ -51,12 +45,27 @@ const Home: React.FC = (): React.ReactElement => {
     setitems([...items, removeSelected]);
   };
 
+  /**handle weight */
+  const [airlineLimit, setairlineLimit] = useState(airlines[0].limit || 0);
+  const [totalWeight, settotalWeight] = useState(0);
+
+  useEffect(() => {
+    /**update total weight */
+    let sum = 0;
+    selected.forEach((item) => (sum += item.weight));
+    settotalWeight(sum);
+
+    /**is weight exceeded */
+  }, [items, selected]);
+
+  const isWeightExceeded = totalWeight > airlineLimit;
+
   return (
     <>
       <ToastContainer />
 
       <div className="flex flex-col items-center gap-20 bg-zinc-100 h-screen p-10">
-        <Dropdown />
+        <Dropdown setairlineLimit={setairlineLimit} />
         <div className="flex gap-14">
           <Card
             className="self-start"
@@ -73,8 +82,11 @@ const Home: React.FC = (): React.ReactElement => {
             addSelected={addSelected}
             removeSelected={removeSelected}
           >
-            <CardFooterTotal totalWeight={totalWeight} />
-            <CardFooterSubmit />
+            <CardFooterTotal
+              totalWeight={totalWeight}
+              isWeightExceeded={isWeightExceeded}
+            />
+            <CardFooterSubmit isWeightExceeded={isWeightExceeded} />
           </Card>
         </div>
       </div>
