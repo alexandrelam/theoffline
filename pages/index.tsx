@@ -28,6 +28,7 @@ const Home: React.FC = (): React.ReactElement => {
 
   useEffect(() => {
     if (items.length) {
+      console.log("hello");
       setisLoading(false);
       return;
     }
@@ -36,12 +37,12 @@ const Home: React.FC = (): React.ReactElement => {
       .get("https://weekndr.herokuapp.com/api/v2/cabin-luggage-inventory")
       .then((res) => {
         dispatch(setItems(res.data.items));
+        setisLoading(false);
       })
       .catch(() => {
         notify();
+        setisLoading(false);
       });
-
-    setisLoading(false);
   }, []);
 
   /**handle weight */
