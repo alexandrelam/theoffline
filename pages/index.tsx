@@ -58,16 +58,16 @@ const Home: React.FC = (): React.ReactElement => {
     <>
       <ToastContainer />
 
-      <div className="flex flex-col items-center gap-20 bg-zinc-100 h-screen p-10">
+      <div className="flex flex-col items-center gap-20 bg-zinc-100 sm:h-screen p-10">
         <Dropdown setairlineLimit={setairlineLimit} />
-        <div className="flex items-start gap-14">
+        <div className="flex flex-wrap items-start gap-14">
           <Card
             className="self-start"
             isInventory={true}
             items={items}
             isLoading={isLoading}
           />
-          <IArrow className="mt-36" />
+          <IArrow className="md:block hidden mt-36" />
           <Card title="Selected" items={selected}>
             <CardFooterTotal
               totalWeight={totalWeight}
