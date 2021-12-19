@@ -27,20 +27,22 @@ const Home: React.FC = (): React.ReactElement => {
   const [isLoading, setisLoading] = useState(true);
 
   useEffect(() => {
+    if (items.length) {
+      setisLoading(false);
+      return;
+    }
+
     axios
       .get("https://weekndr.herokuapp.com/api/v2/cabin-luggage-inventory")
       .then((res) => {
         dispatch(setItems(res.data.items));
-        setisLoading(false);
       })
       .catch(() => {
         notify();
-        setisLoading(false);
       });
-  }, []);
 
-  /**handle airline */
-  const [airlineLabel, setairlineLabel] = useState(airlines[0].label || "");
+    setisLoading(false);
+  }, []);
 
   /**handle weight */
   const [airlineLimit, setairlineLimit] = useState(airlines[0].limit || 0);
@@ -62,10 +64,7 @@ const Home: React.FC = (): React.ReactElement => {
       <ToastContainer />
 
       <div className="flex flex-col items-center gap-20 bg-zinc-100 h-screen p-10">
-        <Dropdown
-          setairlineLabel={setairlineLabel}
-          setairlineLimit={setairlineLimit}
-        />
+        <Dropdown setairlineLimit={setairlineLimit} />
         <div className="flex gap-14">
           <Card
             className="self-start"
@@ -81,7 +80,6 @@ const Home: React.FC = (): React.ReactElement => {
             />
             <CardFooterSubmit
               selectedItems={selected}
-              airlineLabel={airlineLabel}
               isWeightExceeded={isWeightExceeded}
             />
           </Card>

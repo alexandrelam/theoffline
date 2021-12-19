@@ -1,10 +1,11 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 
 import luggageReducer from "./luggageSlice";
+import airlineReducer from "./airlineSlice";
 
 export function makeStore() {
   return configureStore({
-    reducer: { luggage: luggageReducer },
+    reducer: { luggage: luggageReducer, airline: airlineReducer },
   });
 }
 
