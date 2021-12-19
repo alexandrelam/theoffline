@@ -1,28 +1,25 @@
 import React, { useState } from "react";
 import capitalize from "../utils/capitalize";
 import Item from "../types/Item";
+import { useAppDispatch } from "../store/hooks";
+import { addSelected, removeSelected } from "../store/luggageSlice";
 
 type Props = {
   /**item luggage from an airline */
   item: Item;
   isInventory?: boolean;
-  /**select an item */
-  addSelected: (label: string) => void;
-  /**deselect an item */
-  removeSelected: (label: string) => void;
 };
 
 const CardItem: React.FC<Props> = ({
   item,
   isInventory = false,
-  addSelected,
-  removeSelected,
 }): React.ReactElement => {
+  const dispatch = useAppDispatch();
   const [onHover, setonHover] = useState(false);
 
   const handleClick = (): void => {
-    if (isInventory) addSelected(item.label);
-    else removeSelected(item.label);
+    if (isInventory) dispatch(addSelected(item.label));
+    else dispatch(removeSelected(item.label));
   };
 
   return (

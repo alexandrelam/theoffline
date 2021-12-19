@@ -15,21 +15,21 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { useAppSelector, useAppDispatch } from "../store/hooks";
-import { selectItems, setItems } from "../store/luggageSlice";
+import { selectItems, selectSelected, setItems } from "../store/luggageSlice";
 
 const Home: React.FC = (): React.ReactElement => {
   const dispatch = useAppDispatch();
-  const items2: Array<Item> = useAppSelector(selectItems);
 
   /**handle luggage items*/
+  const items: Array<Item> = useAppSelector(selectItems);
+  const selected: Array<Item> = useAppSelector(selectSelected);
+
   const [isLoading, setisLoading] = useState(true);
-  const [items, setitems] = useState<Array<Item>>([]);
-  const [selected, setselected] = useState<Array<Item>>([]);
+
   useEffect(() => {
     axios
       .get("https://weekndr.herokuapp.com/api/v2/cabin-luggage-inventory")
       .then((res) => {
-        setitems(res.data.items);
         dispatch(setItems(res.data.items));
         setisLoading(false);
       })
@@ -38,22 +38,6 @@ const Home: React.FC = (): React.ReactElement => {
         setisLoading(false);
       });
   }, []);
-
-  const addSelected = (label: string) => {
-    const movedItem: Item = items.find((item) => item.label === label);
-    let itemsTmp = items;
-    itemsTmp.splice(items.indexOf(movedItem), 1);
-    setitems(itemsTmp);
-    setselected([...selected, movedItem]);
-  };
-
-  const removeSelected = (label: string) => {
-    const removeSelected: Item = selected.find((item) => item.label === label);
-    let selectedTmp = selected;
-    selectedTmp.splice(selected.indexOf(removeSelected), 1);
-    setselected(selectedTmp);
-    setitems([...items, removeSelected]);
-  };
 
   /**handle airline */
   const [airlineLabel, setairlineLabel] = useState(airlines[0].label || "");
@@ -86,18 +70,11 @@ const Home: React.FC = (): React.ReactElement => {
           <Card
             className="self-start"
             isInventory={true}
-            items={items2}
+            items={items}
             isLoading={isLoading}
-            addSelected={addSelected}
-            removeSelected={removeSelected}
           />
           <IArrow className="-mt-36" />
-          <Card
-            title="Selected"
-            items={selected}
-            addSelected={addSelected}
-            removeSelected={removeSelected}
-          >
+          <Card title="Selected" items={selected}>
             <CardFooterTotal
               totalWeight={totalWeight}
               isWeightExceeded={isWeightExceeded}
