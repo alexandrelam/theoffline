@@ -10,10 +10,6 @@ type Props = {
   isInventory?: boolean;
   className?: string;
   children?: React.ReactNode;
-  /**select an item */
-  addSelected?: (label: string) => void;
-  /**deselect an item */
-  removeSelected?: (label: string) => void;
 };
 
 const Card: React.FC<Props> = ({
@@ -23,8 +19,6 @@ const Card: React.FC<Props> = ({
   isInventory = false,
   className = "",
   children,
-  addSelected = () => {},
-  removeSelected = () => {},
 }): React.ReactElement => {
   return (
     <div className={`w-80 bg-white rounded-lg border shadow-lg ${className}`}>
@@ -38,13 +32,7 @@ const Card: React.FC<Props> = ({
           <ClipLoader size={30} />
         ) : items?.length ? (
           items.map((item, index) => (
-            <CardItem
-              key={index}
-              item={item}
-              isInventory={isInventory}
-              addSelected={addSelected}
-              removeSelected={removeSelected}
-            />
+            <CardItem key={index} item={item} isInventory={isInventory} />
           ))
         ) : (
           <span className="text-zinc-500 text-sm">

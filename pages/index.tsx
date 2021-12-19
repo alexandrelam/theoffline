@@ -1,26 +1,42 @@
+import axios from "axios";
+import React, { useState, useEffect } from "react";
+
+import Item from "../types/Item";
+import { airlines } from "../utils/airlines";
+
 import Dropdown from "../components/Dropdown";
 import Card from "../components/Card";
 import CardFooterTotal from "../components/CardFooterTotal";
 import CardFooterSubmit from "../components/CardFooterSubmit";
 import IArrow from "../components/icons/IArrow";
-import axios from "axios";
-import React, { useState, useEffect } from "react";
-import Item from "../types/Item";
-import { ToastContainer } from "react-toastify";
+
 import notify from "../utils/notify";
-import { airlines } from "../utils/airlines";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import { useAppSelector, useAppDispatch } from "../store/hooks";
+import { selectItems, selectSelected, setItems } from "../store/luggageSlice";
+
 const Home: React.FC = (): React.ReactElement => {
+  const dispatch = useAppDispatch();
+
   /**handle luggage items*/
+  const items: Array<Item> = useAppSelector(selectItems);
+  const selected: Array<Item> = useAppSelector(selectSelected);
+
   const [isLoading, setisLoading] = useState(true);
-  const [items, setitems] = useState<Array<Item>>([]);
-  const [selected, setselected] = useState<Array<Item>>([]);
+
   useEffect(() => {
+    if (items.length) {
+      console.log("hello");
+      setisLoading(false);
+      return;
+    }
+
     axios
       .get("https://weekndr.herokuapp.com/api/v2/cabin-luggage-inventory")
       .then((res) => {
-        setitems(res.data.items);
+        dispatch(setItems(res.data.items));
         setisLoading(false);
       })
       .catch(() => {
@@ -28,25 +44,6 @@ const Home: React.FC = (): React.ReactElement => {
         setisLoading(false);
       });
   }, []);
-
-  const addSelected = (label: string) => {
-    const movedItem: Item = items.find((item) => item.label === label);
-    let itemsTmp = items;
-    itemsTmp.splice(items.indexOf(movedItem), 1);
-    setitems(itemsTmp);
-    setselected([...selected, movedItem]);
-  };
-
-  const removeSelected = (label: string) => {
-    const removeSelected: Item = selected.find((item) => item.label === label);
-    let selectedTmp = selected;
-    selectedTmp.splice(selected.indexOf(removeSelected), 1);
-    setselected(selectedTmp);
-    setitems([...items, removeSelected]);
-  };
-
-  /**handle airline */
-  const [airlineLabel, setairlineLabel] = useState(airlines[0].label || "");
 
   /**handle weight */
   const [airlineLimit, setairlineLimit] = useState(airlines[0].limit || 0);
@@ -68,33 +65,22 @@ const Home: React.FC = (): React.ReactElement => {
       <ToastContainer />
 
       <div className="flex flex-col items-center gap-20 bg-zinc-100 h-screen p-10">
-        <Dropdown
-          setairlineLabel={setairlineLabel}
-          setairlineLimit={setairlineLimit}
-        />
+        <Dropdown setairlineLimit={setairlineLimit} />
         <div className="flex gap-14">
           <Card
             className="self-start"
             isInventory={true}
             items={items}
             isLoading={isLoading}
-            addSelected={addSelected}
-            removeSelected={removeSelected}
           />
           <IArrow className="-mt-36" />
-          <Card
-            title="Selected"
-            items={selected}
-            addSelected={addSelected}
-            removeSelected={removeSelected}
-          >
+          <Card title="Selected" items={selected}>
             <CardFooterTotal
               totalWeight={totalWeight}
               isWeightExceeded={isWeightExceeded}
             />
             <CardFooterSubmit
               selectedItems={selected}
-              airlineLabel={airlineLabel}
               isWeightExceeded={isWeightExceeded}
             />
           </Card>

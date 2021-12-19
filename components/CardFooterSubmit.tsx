@@ -4,28 +4,17 @@ import Item from "../types/Item";
 
 type Props = {
   isWeightExceeded: boolean;
-  airlineLabel: string;
   selectedItems: Array<Item>;
 };
 
 const CardFooterSubmit: React.FC<Props> = ({
   isWeightExceeded,
-  airlineLabel,
   selectedItems,
 }): React.ReactElement => {
   const isDisabled = isWeightExceeded || !selectedItems.length;
   return (
     <div className="px-4 py-5">
-      <Link
-        href={{
-          pathname: "/report",
-          query: {
-            airline: airlineLabel,
-            items: JSON.stringify(selectedItems),
-          },
-        }}
-        passHref
-      >
+      <Link href="/report" passHref>
         <button
           disabled={isDisabled}
           className={`rounded w-full h-10 text-white hover:shadow-lg ${
