@@ -60,7 +60,7 @@ const Home: React.FC = (): React.ReactElement => {
 
       <div className="flex flex-col items-center gap-20 bg-zinc-100 h-screen p-10">
         <Dropdown setairlineLimit={setairlineLimit} />
-        <div className="flex gap-14">
+        <div className="flex items-start gap-14">
           <Card
             className="self-start"
             isInventory={true}

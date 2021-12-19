@@ -24,7 +24,7 @@ const Card: React.FC<Props> = ({
     <div className={`w-80 bg-white rounded-lg border shadow-lg ${className}`}>
       <h2 className="font-bold text-lg border-b text-center py-4">{title}</h2>
       <div
-        className={`p-4 flex flex-col gap-1 ${!isInventory && "h-96"} ${
+        className={`p-4 flex flex-col gap-1 ${!items.length && "h-96"} ${
           isLoading && "items-center justify-center h-96"
         }`}
       >
