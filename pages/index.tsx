@@ -1,17 +1,26 @@
+import axios from "axios";
+import React, { useState, useEffect } from "react";
+
+import Item from "../types/Item";
+import { airlines } from "../utils/airlines";
+
 import Dropdown from "../components/Dropdown";
 import Card from "../components/Card";
 import CardFooterTotal from "../components/CardFooterTotal";
 import CardFooterSubmit from "../components/CardFooterSubmit";
 import IArrow from "../components/icons/IArrow";
-import axios from "axios";
-import React, { useState, useEffect } from "react";
-import Item from "../types/Item";
-import { ToastContainer } from "react-toastify";
+
 import notify from "../utils/notify";
-import { airlines } from "../utils/airlines";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import { useAppSelector, useAppDispatch } from "../store/hooks";
+import { selectItems, setItems } from "../store/luggageSlice";
+
 const Home: React.FC = (): React.ReactElement => {
+  const dispatch = useAppDispatch();
+  const items2: Array<Item> = useAppSelector(selectItems);
+
   /**handle luggage items*/
   const [isLoading, setisLoading] = useState(true);
   const [items, setitems] = useState<Array<Item>>([]);
@@ -21,6 +30,7 @@ const Home: React.FC = (): React.ReactElement => {
       .get("https://weekndr.herokuapp.com/api/v2/cabin-luggage-inventory")
       .then((res) => {
         setitems(res.data.items);
+        dispatch(setItems(res.data.items));
         setisLoading(false);
       })
       .catch(() => {
@@ -76,7 +86,7 @@ const Home: React.FC = (): React.ReactElement => {
           <Card
             className="self-start"
             isInventory={true}
-            items={items}
+            items={items2}
             isLoading={isLoading}
             addSelected={addSelected}
             removeSelected={removeSelected}
