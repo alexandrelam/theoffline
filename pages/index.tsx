@@ -32,7 +32,6 @@ const Home: React.FC = (): React.ReactElement => {
 
   useEffect(() => {
     if (items.length) {
-      console.log("hello");
       setisLoading(false);
       return;
     }
