@@ -40,5 +40,11 @@ export const { addSelected, removeSelected, setItems } = luggageSlice.actions;
 
 export const selectItems = (state: AppState) => state.luggage.items;
 export const selectSelected = (state: AppState) => state.luggage.selected;
+export const getTotalWeight = (state: AppState) => {
+  return state.luggage.selected.reduce(
+    (sum: number, item: Item) => (sum += item.weight),
+    0
+  );
+};
 
 export default luggageSlice.reducer;

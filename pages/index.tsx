@@ -15,7 +15,12 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { useAppSelector, useAppDispatch } from "../store/hooks";
-import { selectItems, selectSelected, setItems } from "../store/luggageSlice";
+import {
+  getTotalWeight,
+  selectItems,
+  selectSelected,
+  setItems,
+} from "../store/luggageSlice";
 
 const Home: React.FC = (): React.ReactElement => {
   const dispatch = useAppDispatch();
@@ -23,7 +28,6 @@ const Home: React.FC = (): React.ReactElement => {
   /**handle luggage items*/
   const items: Array<Item> = useAppSelector(selectItems);
   const selected: Array<Item> = useAppSelector(selectSelected);
-
   const [isLoading, setisLoading] = useState(true);
 
   useEffect(() => {
@@ -47,16 +51,7 @@ const Home: React.FC = (): React.ReactElement => {
 
   /**handle weight */
   const [airlineLimit, setairlineLimit] = useState(airlines[0].limit || 0);
-  const [totalWeight, settotalWeight] = useState(0);
-
-  useEffect(() => {
-    /**update total weight */
-    let sum = 0;
-    selected.forEach((item) => (sum += item.weight));
-    settotalWeight(sum);
-
-    /**is weight exceeded */
-  }, [items, selected]);
+  const totalWeight = useAppSelector(getTotalWeight);
 
   const isWeightExceeded = totalWeight > airlineLimit;
 
