@@ -67,7 +67,7 @@ const Home: React.FC = (): React.ReactElement => {
             items={items}
             isLoading={isLoading}
           />
-          <IArrow className="-mt-36" />
+          <IArrow className="mt-36" />
           <Card title="Selected" items={selected}>
             <CardFooterTotal
               totalWeight={totalWeight}
